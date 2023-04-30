@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour
     public float missedHits;
 
     public GameObject resultsScreen;
+    public GameObject startScreen;
     public Text percentHitText, normalsText, goodsText, perfectsText, missesText, rankText, finalScoreText;
 
     // Start is called before the first frame update
@@ -48,14 +51,19 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!startPlaying)
+        if(!startPlaying && startScreen.activeInHierarchy)
         {
             if(Input.anyKeyDown)
             {
+                startScreen.SetActive(false);
                 startPlaying = true;
                 theBS.hasStarted = true;
 
                 theMusic.Play();
+            }
+        } else if(!theMusic.isPlaying && resultsScreen.activeInHierarchy) {
+            if(Input.anyKeyDown){
+                SceneManager.LoadScene("main");
             }
         } else {
             if (!theMusic.isPlaying && !resultsScreen.activeInHierarchy)
